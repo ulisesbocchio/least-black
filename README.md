@@ -1,6 +1,15 @@
 # less-black
 small node library that uses imagemagick to tell you what's the image with less black among a list of image files
 
+## Install ImageMagick
+This library requires [ImageMagick 6](http://www.imagemagick.org/script/index.php) or higher.
+
+On Mac:
+
+```bash
+> brew install imagemagick
+```
+
 ## install
 
 ```bash
@@ -57,7 +66,7 @@ const files = ['~/Downloads/chess.png', '~/Desktop/Screen\ Shot\ 2018-03-04\ at\
 const fuzz = 10;
 // how many concurrent `convert` operations to run
 const concurrency = 2;
-// results will an array of objects, first result is the one with less black color
+// results it's an array of objects, first result is the one with less black color
 analyzeBlackPercentage(files, fuzz, concurrency).then(percentages => console.log('%j', percentages));
 // prints:
 // [
@@ -70,7 +79,7 @@ analyzeBlackPercentage(files, fuzz, concurrency).then(percentages => console.log
 //     "black": 50.9954
 //   }
 // ]
-// or just use findLessBlack that will return one object 
+// or just use findLessBlack that will return one such objects, the one with less black
 findLessBlack(files, fuzz, concurrency).then(lessBlack => console.log('%j', lessBlack));
 // prints:
 //   {
