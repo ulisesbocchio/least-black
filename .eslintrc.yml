@@ -1,0 +1,25 @@
+---
+extends:
+  - 'eslint:recommended'
+  - 'plugin:node/recommended'
+  - prettier
+plugins:
+  - node
+  - prettier
+env:
+  node: true
+  es6: true,
+parserOptions:
+  ecmaVersion: 2018
+rules:
+  prettier/prettier: error
+  block-scoped-var: error
+  eqeqeq: error
+  no-warning-comments: warn
+  no-var: error
+  no-console: off
+  no-process-exit: off
+  max-len:
+    - error
+    - code: 120
+      ignoreUrls: true
