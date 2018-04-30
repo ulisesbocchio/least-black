@@ -1,6 +1,6 @@
 {
   "name": "less-black",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "given a list of files, tell me which one has less black",
   "main": "index.js",
   "bin": "cli.js",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "lint": "eslint --fix *.js",
-    "less-black": "node ./cli.js"
+    "less-black": "./cli.js"
   },
   "dependencies": {
     "caporal": "^0.10.0",

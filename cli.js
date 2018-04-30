@@ -1,6 +1,9 @@
-const {analyzeBlackPercentage} = require('./');
+#!/usr/bin/env node
+
+const {analyzeBlackPercentage, findLessBlack} = require('./');
 const prog = require('caporal');
 const Table = require('cli-table2');
+const version = require('./package.json').version;
 
 const fuzzOption = [
   '-f --fuzz <fuzz>',
@@ -33,7 +36,7 @@ const concurrencyOption = [
 const jsonOption = ['-j --json', 'print json output'];
 
 prog
-  .version('1.0.0')
+  .version(version)
   .description('CLI for less-black, a tool to identify the image with less black from set of images')
   .command('analyze', 'analyze the amount of black of a list of image files (supports glob pattern)')
   .option(...fuzzOption)
@@ -66,8 +69,7 @@ prog
   .option(...concurrencyOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const withPercentages = await analyzeBlackPercentage(args.images, options.fuzz, options.concurrency);
-    const lessBlack = withPercentages[0];
+    const lessBlack = await findLessBlack(args.images, options.fuzz, options.concurrency);
     if (options.json) {
       console.log('%j', lessBlack);
     } else {
