@@ -15,6 +15,7 @@ const fuzzOption = [
     } else if (fuzz && (fuzz > 100 || fuzz < 0)) {
       throw new Error('fuzz must be between 0 and 100');
     }
+    return fuzzInt;
   },
   10,
 ];
@@ -29,6 +30,7 @@ const concurrencyOption = [
     } else if (concurrency && (concurrency > 10 || concurrency < 1)) {
       throw new Error('concurrency must be between 1 and 10');
     }
+    return concurrencyInt;
   },
   5,
 ];
