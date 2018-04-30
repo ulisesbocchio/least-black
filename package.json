@@ -1,8 +1,9 @@
 {
   "name": "less-black",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "given a list of files, tell me which one has less black",
   "main": "index.js",
+  "bin": "cli.js",
   "repository": "git@github.com:ulisesbocchio/less-black.git",
   "author": "Ulises Bocchio",
   "license": "MIT",
