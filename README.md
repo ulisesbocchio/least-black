@@ -33,7 +33,7 @@ or with npx
 
 ```bash
 > least-black help
-least-black 1.0.2 - CLI for least-black, a tool to identify the image with the least amount of black from set of images
+least-black 1.0.3 - CLI for least-black, a tool to identify the image with the least amount of black from set of images
 
    USAGE
 
