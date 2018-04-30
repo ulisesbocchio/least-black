@@ -6,12 +6,15 @@ extends:
 plugins:
   - node
   - prettier
+  - mocha
 env:
   node: true
-  es6: true,
+  es6: true
+  mocha: true
 parserOptions:
   ecmaVersion: 2018
 rules:
+  mocha/no-exclusive-tests: error
   prettier/prettier: error
   block-scoped-var: error
   eqeqeq: error

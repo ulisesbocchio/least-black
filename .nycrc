@@ -1,8 +1,6 @@
 {
   "report-dir": "./.coverage",
   "exclude": [
-    "src/*{/*,/**/*}.js",
-    "src/*/v*/*.js",
     "test/**/*.js"
   ],
   "watermarks": {

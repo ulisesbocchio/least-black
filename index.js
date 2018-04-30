@@ -45,7 +45,7 @@ async function analyzeBlackPercentage(images, fuzz, concurrency = 5) {
   return withPercentages;
 }
 
-async function findLessBlack(images, fuzz, concurrency) {
+async function findLeastBlack(images, fuzz, concurrency) {
   const withPercentages = await analyzeBlackPercentage(images, fuzz, concurrency);
   return withPercentages[0];
 }
@@ -53,5 +53,5 @@ async function findLessBlack(images, fuzz, concurrency) {
 module.exports = {
   blackPercentage,
   analyzeBlackPercentage,
-  findLessBlack,
+  findLeastBlack,
 };

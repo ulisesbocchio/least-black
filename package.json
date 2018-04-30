@@ -1,10 +1,10 @@
 {
-  "name": "less-black",
+  "name": "least-black",
   "version": "1.0.2",
-  "description": "given a list of files, tell me which one has less black",
+  "description": "given a list of files, tell me which one has the least amount of black",
   "main": "index.js",
   "bin": "cli.js",
-  "repository": "git@github.com:ulisesbocchio/less-black.git",
+  "repository": "git@github.com:ulisesbocchio/least-black.git",
   "author": "Ulises Bocchio",
   "license": "MIT",
   "private": false,
@@ -12,8 +12,10 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "lint": "eslint --fix *.js",
-    "less-black": "./cli.js"
+    "lint": "eslint --fix *.js test/*.js",
+    "least-black": "./cli.js",
+    "test:mocha": "NODE_ENV=test-cli mocha --require intelli-espower-loader test/test_*.js",
+    "test": "NODE_ENV=test-cli nyc --reporter=lcov mocha --require source-map-support/register --require intelli-espower-loader test/*.js && nyc report"
   },
   "dependencies": {
     "caporal": "^0.10.0",
@@ -26,8 +28,10 @@
     "codecov": "3.0.1",
     "eslint": "4.19.1",
     "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-mocha": "^5.0.0",
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-prettier": "2.6.0",
+    "intelli-espower-loader": "^1.0.1",
     "jsdoc": "3.5.5",
     "mocha": "5.0.5",
     "nock": "9.2.5",

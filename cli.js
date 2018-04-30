@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const {analyzeBlackPercentage, findLessBlack} = require('./');
+const {analyzeBlackPercentage, findLeastBlack} = require('./');
 const prog = require('caporal');
 const Table = require('cli-table2');
-const version = require('./package.json').version;
+const {version, name} = require('./package.json');
 
 const fuzzOption = [
   '-f --fuzz <fuzz>',
@@ -37,7 +37,8 @@ const jsonOption = ['-j --json', 'print json output'];
 
 prog
   .version(version)
-  .description('CLI for less-black, a tool to identify the image with less black from set of images')
+  .name(name)
+  .description(`CLI for ${name}, a tool to identify the image with the least amount of black from set of images`)
   .command('analyze', 'analyze the amount of black of a list of image files (supports glob pattern)')
   .option(...fuzzOption)
   .option(...jsonOption)
@@ -63,18 +64,20 @@ prog
       console.log(table.toString());
     }
   })
-  .command('pick', 'pick the image with less black from list of image files (supports glob pattern)')
+  .command('pick', 'pick the image with the least amount of black from list of image files (supports glob pattern)')
   .option(...fuzzOption)
   .option(...jsonOption)
   .option(...concurrencyOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const lessBlack = await findLessBlack(args.images, options.fuzz, options.concurrency);
+    const leastBlack = await findLeastBlack(args.images, options.fuzz, options.concurrency);
     if (options.json) {
-      console.log('%j', lessBlack);
+      console.log('%j', leastBlack);
     } else {
-      console.log('%s', lessBlack.image);
+      console.log('%s', leastBlack.image);
     }
   });
 
-prog.parse(process.argv);
+if (process.env.NODE_ENV !== 'test-cli') {
+  prog.parse(process.argv);
+}

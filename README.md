@@ -1,5 +1,5 @@
-# less-black
-small node library that uses imagemagick to tell you what's the image with less black among a list of image files
+# least-black
+small node library that uses imagemagick to tell you what's the image with the least amount of black among a list of image files
 
 ## Install ImageMagick
 This library requires [ImageMagick 6](http://www.imagemagick.org/script/index.php) or higher.
@@ -13,27 +13,27 @@ On Mac:
 ## install
 
 ```bash
-> npm install -g less-black
+> npm install -g least-black
 
-> yarn add -g less-black
+> yarn add -g least-black
 ```
 
 ## use
 
 ```bash
-> less-black -c 1 --fuzz 20 analyze ~/Desktop/Screen\ Shot\ 2018-03-04\ at\ 8.00.38\ PM.png ~/Downloads/chess.png
+> least-black -c 1 --fuzz 20 analyze ~/Desktop/Screen\ Shot\ 2018-03-04\ at\ 8.00.38\ PM.png ~/Downloads/chess.png
 ```
 or with npx
 
 ```babsh
-> npx less-black -c 1 --fuzz 20 analyze ~/Desktop/Screen\ Shot\ 2018-03-04\ at\ 8.00.38\ PM.png ~/Downloads/chess.png
+> npx least-black -c 1 --fuzz 20 analyze ~/Desktop/Screen\ Shot\ 2018-03-04\ at\ 8.00.38\ PM.png ~/Downloads/chess.png
 ```
 
 ### more info
 
 ```bash
-> less-black help
-less-black 1.0.2 - CLI for less-black, a tool to identify the image with less black from set of images
+> least-black help
+least-black 1.0.2 - CLI for least-black, a tool to identify the image with the least amount of black from set of images
 
    USAGE
 
@@ -42,7 +42,7 @@ less-black 1.0.2 - CLI for less-black, a tool to identify the image with less bl
    COMMANDS
 
      analyze [images...]      analyze the amount of black of a list of image files (supports glob pattern)
-     pick [images...]         pick the image with less black from list of image files (supports glob pattern)
+     pick [images...]         pick the image with the least amout of black from list of image files (supports glob pattern)
      help <command>           Display help for a specific command
 
    GLOBAL OPTIONS
@@ -58,7 +58,7 @@ less-black 1.0.2 - CLI for less-black, a tool to identify the image with less bl
 ## Use through API
 
 ```js
-const { analyzeBlackPercentage, findLessBlack } = require('less-black');
+const { analyzeBlackPercentage, findleastBlack } = require('least-black');
 
 // files to analyze
 const files = ['~/Downloads/chess.png', '~/Desktop/Screen\ Shot\ 2018-03-04\ at\ 8.00.38\ PM.png'];
@@ -66,7 +66,7 @@ const files = ['~/Downloads/chess.png', '~/Desktop/Screen\ Shot\ 2018-03-04\ at\
 const fuzz = 10;
 // how many concurrent `convert` operations to run
 const concurrency = 2;
-// results it's an array of objects, first result is the one with less black color
+// results it's an array of objects, first result is the one with the least amount of black color
 analyzeBlackPercentage(files, fuzz, concurrency).then(percentages => console.log('%j', percentages));
 // prints:
 // [
@@ -79,8 +79,8 @@ analyzeBlackPercentage(files, fuzz, concurrency).then(percentages => console.log
 //     "black": 50.9954
 //   }
 // ]
-// or just use findLessBlack that will return one such objects, the one with less black
-findLessBlack(files, fuzz, concurrency).then(lessBlack => console.log('%j', lessBlack));
+// or just use findLeastBlack that will return one such objects, the one with the least amount of black
+findLeastBlack(files, fuzz, concurrency).then(leastBlack => console.log('%j', leastBlack));
 // prints:
 //   {
 //     "image": "/Users/ubocchio/Desktop/Screen Shot 2018-03-04 at 8.00.38 PM.png",
@@ -102,7 +102,7 @@ Returns: A Promise that will resolve an array with the results for each image. E
  ```
 The array is sorted by least amout of black.
 
-### findLessBlack( files: Array<String> fuzz: Int, concurrency: Int): Promise<Array>
+### findLeastBlack( files: Array<String> fuzz: Int, concurrency: Int): Promise<Array>
 
 * files: The array of images to analyze
 * fuzz: the fuzz factor, an integer from 0-100 that represents a percentage
@@ -112,4 +112,4 @@ Returns: A Promise that will resolve a single result object that looks like:
  ```json
  { "image": "/path/to/image", "black": 25.234 }
  ```
- for the file with less black from the images provided.
+ for the file with the least amount of black from the images provided.
