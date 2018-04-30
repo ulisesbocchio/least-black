@@ -32,33 +32,27 @@ function blackPercentage(file, fuzz = 10) {
     });
   });
 }
-
-function finishAnalyze(unsortedAnalysisResults) {
-  unsortedAnalysisResults.sort((a, b) => a.black - b.black);
-  return unsortedAnalysisResults;
+function percentageMet(withPercentages, thresholdPercentage) {
+  return thresholdPercentage && withPercentages.some(result => result.black <= thresholdPercentage);
 }
 
-async function analyzeBlackPercentage(images, fuzz, concurrency = 5, stopAtPercentage) {
+async function analyzeBlackPercentage(images, fuzz, concurrency = 5, thresholdPercentage) {
   const withPercentages = [];
   const batches = _.chunk(images, concurrency);
   for (const batch of batches) {
     withPercentages.push(
       ...(await Promise.all(batch.map(async image => ({image, black: await blackPercentage(image, fuzz)}))))
     );
-    if (stopAtPercentage) {
-      const fiteredResults = withPercentages.filter(result => {
-        return result.black < stopAtPercentage;
-      });
-      if (fiteredResults.length > 0) {
-        return finishAnalyze(withPercentages);
-      }
+    if (percentageMet(withPercentages, thresholdPercentage)) {
+      break;
     }
   }
-  return finishAnalyze(withPercentages);
+  withPercentages.sort((a, b) => a.black - b.black);
+  return withPercentages;
 }
 
-async function findLeastBlack(images, fuzz, concurrency, stopAtPercentage) {
-  const withPercentages = await analyzeBlackPercentage(images, fuzz, concurrency, stopAtPercentage);
+async function findLeastBlack(images, fuzz, concurrency, thresholdPercentage) {
+  const withPercentages = await analyzeBlackPercentage(images, fuzz, concurrency, thresholdPercentage);
   return withPercentages[0];
 }
 
