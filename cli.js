@@ -78,6 +78,7 @@ prog
     }
   });
 
+// istanbul ignore next
 if (process.env.NODE_ENV !== 'test-cli') {
   prog.parse(process.argv);
 }
