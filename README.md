@@ -67,7 +67,7 @@ const fuzz = 10;
 // how many concurrent `convert` operations to run
 const concurrency = 2;
 // results it's an array of objects, first result is the one with the least amount of black color
-analyzeBlackPercentage(files, fuzz, concurrency).then(percentages => console.log('%j', percentages));
+analyzeBlackPercentage(files, fuzz, concurrency, thresholdPercentage).then(percentages => console.log('%j', percentages));
 // prints:
 // [
 //   {
@@ -80,7 +80,7 @@ analyzeBlackPercentage(files, fuzz, concurrency).then(percentages => console.log
 //   }
 // ]
 // or just use findLeastBlack that will return one such objects, the one with the least amount of black
-findLeastBlack(files, fuzz, concurrency).then(leastBlack => console.log('%j', leastBlack));
+findLeastBlack(files, fuzz, concurrency,thresholdPercentage).then(leastBlack => console.log('%j', leastBlack));
 // prints:
 //   {
 //     "image": "/Users/ubocchio/Desktop/Screen Shot 2018-03-04 at 8.00.38 PM.png",
@@ -102,11 +102,12 @@ Returns: A Promise that will resolve an array with the results for each image. E
  ```
 The array is sorted by least amout of black.
 
-### findLeastBlack( files: Array<String> fuzz: Int, concurrency: Int): Promise<Array>
+### findLeastBlack( files: Array<String> fuzz: Int, concurrency: Int, stop: Int): Promise<Array>
 
 * files: The array of images to analyze
 * fuzz: the fuzz factor, an integer from 0-100 that represents a percentage
 * concurrency: how many concurrent 'convert' operations to run
+* threshold(optional): what black percentace to stop at when finding the least black
 
 Returns: A Promise that will resolve a single result object that looks like:
  ```json

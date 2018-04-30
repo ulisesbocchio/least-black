@@ -32,21 +32,27 @@ function blackPercentage(file, fuzz = 10) {
     });
   });
 }
+function percentageMet(withPercentages, thresholdPercentage) {
+  return thresholdPercentage && withPercentages.some(result => result.black <= thresholdPercentage);
+}
 
-async function analyzeBlackPercentage(images, fuzz, concurrency = 5) {
+async function analyzeBlackPercentage(images, fuzz, concurrency = 5, thresholdPercentage) {
   const withPercentages = [];
   const batches = _.chunk(images, concurrency);
   for (const batch of batches) {
     withPercentages.push(
       ...(await Promise.all(batch.map(async image => ({image, black: await blackPercentage(image, fuzz)}))))
     );
+    if (percentageMet(withPercentages, thresholdPercentage)) {
+      break;
+    }
   }
   withPercentages.sort((a, b) => a.black - b.black);
   return withPercentages;
 }
 
-async function findLeastBlack(images, fuzz, concurrency) {
-  const withPercentages = await analyzeBlackPercentage(images, fuzz, concurrency);
+async function findLeastBlack(images, fuzz, concurrency, thresholdPercentage) {
+  const withPercentages = await analyzeBlackPercentage(images, fuzz, concurrency, thresholdPercentage);
   return withPercentages[0];
 }
 

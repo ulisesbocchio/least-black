@@ -34,6 +34,17 @@ describe('test least-black CLI', () => {
     });
   });
 
+  it('should exec pick with stop option', async () => {
+    assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
+    const image = path.resolve(__dirname, './chess.png');
+    await program.exec(['pick', image], {
+      json: false,
+      concurrency: 2,
+      fuzz: 10,
+      stop: 60,
+    });
+  });
+
   it('should fail exec pick, bad fuzz', async () => {
     assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
     const image = path.resolve(__dirname, './chess.png');
@@ -52,6 +63,30 @@ describe('test least-black CLI', () => {
       json: false,
       concurrency: 2,
       fuzz: -1,
+    });
+    assert.ok(fatalError.called, 'should log error');
+  });
+
+  it('should fail exec pick, bad stop', async () => {
+    assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
+    const image = path.resolve(__dirname, './chess.png');
+    await program.exec(['pick', image], {
+      json: false,
+      concurrency: 2,
+      fuzz: 15,
+      stop: 'sdlk',
+    });
+    assert.ok(fatalError.called, 'should log error');
+  });
+
+  it('should fail exec pick, bad stop integer', async () => {
+    assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
+    const image = path.resolve(__dirname, './chess.png');
+    await program.exec(['pick', image], {
+      json: false,
+      concurrency: 2,
+      fuzz: 15,
+      stop: -1,
     });
     assert.ok(fatalError.called, 'should log error');
   });

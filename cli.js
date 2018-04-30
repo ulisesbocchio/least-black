@@ -5,34 +5,36 @@ const prog = require('caporal');
 const Table = require('cli-table2');
 const {version, name} = require('./package.json');
 
+function validateIntRange(field, start, end) {
+  return value => {
+    const valueInt = parseInt(value);
+    if (value && isNaN(valueInt)) {
+      throw new Error(`${field} must be an integer`);
+    } else if (valueInt && (valueInt > end || valueInt < start)) {
+      throw new Error(`${field} must be between ${start} and ${end}`);
+    }
+    return valueInt;
+  };
+}
+
 const fuzzOption = [
   '-f --fuzz <fuzz>',
   'the fuzz percentange factor, an intenger from 0-100',
-  fuzz => {
-    const fuzzInt = parseInt(fuzz);
-    if (fuzz && isNaN(fuzzInt)) {
-      throw new Error('fuzz must be an integer');
-    } else if (fuzz && (fuzz > 100 || fuzz < 0)) {
-      throw new Error('fuzz must be between 0 and 100');
-    }
-    return fuzzInt;
-  },
+  validateIntRange('fuzz', 1, 100),
   10,
 ];
 
 const concurrencyOption = [
   '-c --concurrency [concurrency]',
   "how many 'convert' operations in parallel, an integer from 1-10",
-  concurrency => {
-    const concurrencyInt = parseInt(concurrency);
-    if (concurrency && isNaN(concurrencyInt)) {
-      throw new Error('concurrency must be an integer');
-    } else if (concurrency && (concurrency > 10 || concurrency < 1)) {
-      throw new Error('concurrency must be between 1 and 10');
-    }
-    return concurrencyInt;
-  },
+  validateIntRange('concurrency', 1, 10),
   5,
+];
+
+const thresholdPercentageOption = [
+  '-t --threshold [threshold]',
+  'what black percentage threshold to stop at when looking for least black from 1 - 100 optional',
+  validateIntRange('threshold', 1, 100),
 ];
 
 const jsonOption = ['-j --json', 'print json output'];
@@ -45,9 +47,15 @@ prog
   .option(...fuzzOption)
   .option(...jsonOption)
   .option(...concurrencyOption)
+  .option(...thresholdPercentageOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const withPercentages = await analyzeBlackPercentage(args.images, options.fuzz, options.concurrency);
+    const withPercentages = await analyzeBlackPercentage(
+      args.images,
+      options.fuzz,
+      options.concurrency,
+      options.threshold
+    );
     if (options.json) {
       console.log(JSON.stringify(withPercentages, null, 2));
     } else {
@@ -70,9 +78,10 @@ prog
   .option(...fuzzOption)
   .option(...jsonOption)
   .option(...concurrencyOption)
+  .option(...thresholdPercentageOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const leastBlack = await findLeastBlack(args.images, options.fuzz, options.concurrency);
+    const leastBlack = await findLeastBlack(args.images, options.fuzz, options.concurrency, options.threshold);
     if (options.json) {
       console.log('%j', leastBlack);
     } else {
