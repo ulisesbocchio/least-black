@@ -35,6 +35,20 @@ const concurrencyOption = [
   5,
 ];
 
+const stopAtPercentageOption = [
+  '-s --stop [stop]',
+  'what black percentage threshold to stop at when looking for least black from 1 - 100 optional',
+  stopAtPercentage => {
+    const stopAtInt = parseInt(stopAtPercentage);
+    if (stopAtPercentage && isNaN(stopAtInt)) {
+      throw new Error('stop percentage must be an integer');
+    } else if (stopAtPercentage && (stopAtPercentage > 100 || stopAtPercentage < 1)) {
+      throw new Error('stop percentage must be between 1 and 100');
+    }
+    return stopAtInt;
+  },
+];
+
 const jsonOption = ['-j --json', 'print json output'];
 
 prog
@@ -70,9 +84,10 @@ prog
   .option(...fuzzOption)
   .option(...jsonOption)
   .option(...concurrencyOption)
+  .option(...stopAtPercentageOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const leastBlack = await findLeastBlack(args.images, options.fuzz, options.concurrency);
+    const leastBlack = await findLeastBlack(args.images, options.fuzz, options.concurrency, options.stop);
     if (options.json) {
       console.log('%j', leastBlack);
     } else {
