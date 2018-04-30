@@ -15,7 +15,7 @@ On Mac:
 ```bash
 > npm install -g least-black
 
-> yarn add -g least-black
+> yarn global add least-black
 ```
 
 ## use
