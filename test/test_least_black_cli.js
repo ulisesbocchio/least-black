@@ -34,14 +34,14 @@ describe('test least-black CLI', () => {
     });
   });
 
-  it('should exec pick with stop option', async () => {
+  it('should exec pick with threshold option', async () => {
     assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
     const image = path.resolve(__dirname, './chess.png');
     await program.exec(['pick', image], {
       json: false,
       concurrency: 2,
       fuzz: 10,
-      stop: 60,
+      threshold: 60,
     });
   });
 
@@ -67,26 +67,26 @@ describe('test least-black CLI', () => {
     assert.ok(fatalError.called, 'should log error');
   });
 
-  it('should fail exec pick, bad stop', async () => {
+  it('should fail exec pick, bad threshold', async () => {
     assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
     const image = path.resolve(__dirname, './chess.png');
     await program.exec(['pick', image], {
       json: false,
       concurrency: 2,
       fuzz: 15,
-      stop: 'sdlk',
+      threshold: 'sdlk',
     });
     assert.ok(fatalError.called, 'should log error');
   });
 
-  it('should fail exec pick, bad stop integer', async () => {
+  it('should fail exec pick, bad threshold integer', async () => {
     assert.ok(leastBlackCli, 'should be ok, avoid eslint inclussion error');
     const image = path.resolve(__dirname, './chess.png');
     await program.exec(['pick', image], {
       json: false,
       concurrency: 2,
       fuzz: 15,
-      stop: -1,
+      threshold: -1,
     });
     assert.ok(fatalError.called, 'should log error');
   });
