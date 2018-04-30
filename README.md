@@ -102,7 +102,7 @@ Returns: A Promise that will resolve an array with the results for each image. E
  ```
 The array is sorted by least amout of black.
 
-### findLeastBlack( files: Array<String> fuzz: Int, concurrency: Int, stop: Int): Promise<Array>
+### findLeastBlack( files: Array<String> fuzz: Int, concurrency: Int, threshold: Int): Promise<Array>
 
 * files: The array of images to analyze
 * fuzz: the fuzz factor, an integer from 0-100 that represents a percentage
