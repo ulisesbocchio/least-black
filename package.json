@@ -1,6 +1,6 @@
 {
   "name": "least-black",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "given a list of files, tell me which one has the least amount of black",
   "main": "index.js",
   "bin": "cli.js",
@@ -22,8 +22,7 @@
     "caporal": "^0.10.0",
     "cli-table2": "^0.2.0",
     "gm": "^1.23.1",
-    "lodash": "^4.17.10",
-    "shelljs": "^0.8.1"
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "codecov": "3.0.1",
