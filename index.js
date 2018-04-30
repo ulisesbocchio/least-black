@@ -1,4 +1,5 @@
 const gm = require('gm');
+const _ = require('lodash');
 
 gm.prototype.opaque = function opaque(color, invert = false) {
   return this.out(`${invert ? '+' : '-'}opaque`, color);
@@ -32,10 +33,13 @@ function blackPercentage(file, fuzz = 10) {
   });
 }
 
-async function analyzeBlackPercentage(images, fuzz) {
+async function analyzeBlackPercentage(images, fuzz, concurrency = 5) {
   const withPercentages = [];
-  for (const image of images) {
-    withPercentages.push({image, black: await blackPercentage(image, fuzz)});
+  const batches = _.chunk(images, concurrency);
+  for (const batch of batches) {
+    withPercentages.push(
+      ...(await Promise.all(batch.map(async image => ({image, black: await blackPercentage(image, fuzz)}))))
+    );
   }
   withPercentages.sort((a, b) => a.black - b.black);
   return withPercentages;

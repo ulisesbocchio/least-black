@@ -4,7 +4,7 @@ const Table = require('cli-table2');
 
 const fuzzOption = [
   '-f --fuzz <fuzz>',
-  'the fuzz factor, a percentage from 0-100',
+  'the fuzz percentange factor, an intenger from 0-100',
   fuzz => {
     const fuzzInt = parseInt(fuzz);
     if (fuzz && isNaN(fuzzInt)) {
@@ -16,6 +16,20 @@ const fuzzOption = [
   10,
 ];
 
+const concurrencyOption = [
+  '-c --concurrency [concurrency]',
+  "how many 'convert' operations in parallel, an integer from 1-10",
+  concurrency => {
+    const concurrencyInt = parseInt(concurrency);
+    if (concurrency && isNaN(concurrencyInt)) {
+      throw new Error('concurrency must be an integer');
+    } else if (concurrency && (concurrency > 10 || concurrency < 1)) {
+      throw new Error('concurrency must be between 1 and 10');
+    }
+  },
+  5,
+];
+
 const jsonOption = ['-j --json', 'print json output'];
 
 prog
@@ -24,9 +38,10 @@ prog
   .command('analyze', 'analyze the amount of black of a list of image files (supports glob pattern)')
   .option(...fuzzOption)
   .option(...jsonOption)
+  .option(...concurrencyOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const withPercentages = await analyzeBlackPercentage(args.images, options.fuzz);
+    const withPercentages = await analyzeBlackPercentage(args.images, options.fuzz, options.concurrency);
     if (options.json) {
       console.log(JSON.stringify(withPercentages, null, 2));
     } else {
@@ -48,9 +63,10 @@ prog
   .command('pick', 'pick the image with less black from list of image files (supports glob pattern)')
   .option(...fuzzOption)
   .option(...jsonOption)
+  .option(...concurrencyOption)
   .argument('[images...]')
   .action(async (args, options) => {
-    const withPercentages = await analyzeBlackPercentage(args.images, options.fuzz);
+    const withPercentages = await analyzeBlackPercentage(args.images, options.fuzz, options.concurrency);
     const lessBlack = withPercentages[0];
     if (options.json) {
       console.log('%j', lessBlack);
