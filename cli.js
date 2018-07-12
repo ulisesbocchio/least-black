@@ -2,7 +2,7 @@
 
 const {analyzeBlackPercentage, findLeastBlack} = require('./');
 const prog = require('caporal');
-const Table = require('cli-table2');
+const Table = require('cli-table3');
 const {version, name} = require('./package.json');
 
 function validateIntRange(field, start, end) {
