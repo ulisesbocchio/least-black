@@ -29,7 +29,7 @@ function blackPercentage(file, fuzz = 10) {
         return;
       }
       const grayMean = _.get(data, 'Channel statistics.Gray.mean');
-      const match = /^\d+\.\d+ \((?<mean>\d+\.\d+)\)$/g.exec(grayMean);
+      const match = /\((?<mean>(0|[1-9]\d*)(\.\d+)?)\)$/g.exec(grayMean);
       if (!match) {
         reject('No mean found');
         return;

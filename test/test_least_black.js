@@ -20,6 +20,18 @@ describe('test least-black library', () => {
     assert(percentage === 50.995400000000004, 'percentages should match');
   });
 
+  it('should analyze black percentage of allwhite image with default fuzz', async () => {
+    const image = path.resolve(__dirname, './allwhite.png');
+    const percentage = await leastBlack.blackPercentage(image);
+    assert(percentage === 0, 'percentages should match');
+  });
+
+  it('should analyze black percentage of allblack image with default fuzz', async () => {
+    const image = path.resolve(__dirname, './allblack.png');
+    const percentage = await leastBlack.blackPercentage(image);
+    assert(percentage === 100, 'percentages should match');
+  });
+
   it('should analyze black percentage of 1 image with 20% fuzz', async () => {
     const image = path.resolve(__dirname, './chess.png');
     const percentage = await leastBlack.blackPercentage(image, 20);
