@@ -16,7 +16,7 @@
     "least-black": "./cli.js",
     "coverage": "open .coverage/lcov-report/index.html",
     "test:mocha": "NODE_ENV=test-cli mocha --require intelli-espower-loader test/test_*.js",
-    "test": "NODE_ENV=test-cli nyc --reporter=lcov mocha --require intelli-espower-loader test/*.js && nyc report"
+    "test": "NODE_ENV=test-cli nyc --reporter=lcov mocha --timeout 30000 --require intelli-espower-loader test/*.js && nyc report"
   },
   "dependencies": {
     "caporal": "^0.10.0",
