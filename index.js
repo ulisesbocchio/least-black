@@ -10,8 +10,8 @@ const im = gm.subClass({imageMagick: true});
 // IM command:
 // convert $file -fuzz $fuzz -fill black -opaque black \ #make black-ish colors black
 //   -fuzz 0% -fill white +opaque black \ #nake non-black colors white
-//   -format "%[fx:100*(1-mean.c)]" info: #with a black/white image mean is amount of black,
-//                                        #so black % = 100 * (1 - mean)
+//   -identify info: #with a black/white in grayscale colorspace image gray mean is amount of black,
+//                   #so black % = 100 * (1 - mean)
 function blackPercentage(file, fuzz = 10) {
   return new Promise((resolve, reject) => {
     const blackWhite = im(file)

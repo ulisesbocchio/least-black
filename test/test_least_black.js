@@ -17,8 +17,7 @@ describe('test least-black library', () => {
   it('should analyze black percentage of 1 image with default fuzz', async () => {
     const image = path.resolve(__dirname, './chess.png');
     const percentage = await leastBlack.blackPercentage(image);
-    console.log('🚀 ~ file: test_least_black.js ~ line 21 ~ describe ~ percentage', percentage);
-    assert(percentage === percentage, 'percentages should match');
+    assert(percentage === 50.995400000000004, 'percentages should match');
   });
 
   it('should analyze black percentage of 1 image with 20% fuzz', async () => {
