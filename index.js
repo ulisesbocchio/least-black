@@ -23,12 +23,21 @@ function blackPercentage(file, fuzz = 10) {
       .opaque('black', true)
       .stream('png');
 
-    im(blackWhite, 'img.png').identify('%[fx:100*(1-mean.c)]', (err, percent) => {
+    im(blackWhite, 'img.png').identify((err, data) => {
       if (err) {
         reject(err);
         return;
       }
-      resolve(Number(percent));
+      const grayMean = _.get(data, 'Channel statistics.Gray.mean');
+      const match = /^\d+\.\d+ \((?<mean>\d+\.\d+)\)$/g.exec(grayMean);
+      if (!match) {
+        reject('No mean found');
+        return;
+      }
+      const mean = match.groups.mean;
+      const percentage = 100 * (1 - mean);
+
+      resolve(Number(percentage));
     });
   });
 }
