@@ -72,7 +72,7 @@ describe('test least-black library', () => {
     const result = {image: images[0], black: 50.995400000000004};
     assert.deepEqual(percentage, result, 'percentages should match');
   });
-  
+
   it('should find first least black image with 17% fuzz 1 concurrency and 70% threshold', async () => {
     const jpgs = path.resolve(__dirname, 'jpgs');
     const fs = require('fs');
