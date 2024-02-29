@@ -1,6 +1,6 @@
 {
   "name": "least-black",
-  "version": "1.0.5",
+  "version": "1.0.4",
   "description": "given a list of files, tell me which one has the least amount of black",
   "main": "index.js",
   "bin": "cli.js",
