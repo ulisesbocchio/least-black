@@ -13,7 +13,9 @@
   },
   "scripts": {
     "lint": "eslint --fix *.js test/*.js",
+    "clean": "rimraf lib .coverage .nyc_output",
     "least-black": "./cli.js",
+    "build": "echo 'No Build Needed'",
     "coverage": "open .coverage/lcov-report/index.html",
     "test:mocha": "NODE_ENV=test-cli mocha --require intelli-espower-loader test/test_*.js",
     "test": "NODE_ENV=test-cli nyc --reporter=lcov mocha --timeout 30000 --require intelli-espower-loader test/*.js && nyc report"
@@ -38,6 +40,7 @@
     "nyc": "11.6.0",
     "power-assert": "1.5.0",
     "prettier": "1.12.1",
+    "rimraf": "^5.0.5",
     "sinon": "^4.5.0"
   }
 }
