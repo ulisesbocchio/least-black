@@ -2,7 +2,7 @@
 
 set -e
 
-if [[ $1 != *"major"* ]] && [[ $1 != *"minor"* ]] && [[ $1 != *"patch"* ]]; then
+if [[ $1 != "major" ]] && [[ $1 != "minor" ]] && [[ $1 != "patch" ]]; then
     echo "usage: ./release major|minor|patch"
     exit 1
 fi
@@ -20,7 +20,7 @@ echo "Cleaning Directory..."
 rm -f *.tgz
 
 echo "Setting New Release Version..."
-yarn "--no-git-tag-version version --${1}"
+yarn --no-git-tag-version version "--${1}"
 new_version=`node -e 'console.log(require("./package.json").version)'`
 git add ./package.json
 git commit -m "New Release Version ${new_version}"
