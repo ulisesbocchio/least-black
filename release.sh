@@ -20,7 +20,7 @@ echo "Cleaning Directory..."
 rm -f *.tgz
 
 echo "Setting New Release Version..."
-npm --no-git-tag-version version $1
+yarn --no-git-tag-version version --${$1}
 new_version=`node -e 'console.log(require("./package.json").version)'`
 git add ./package.json
 git commit -m "New Release Version ${new_version}"
@@ -33,7 +33,7 @@ echo "Building..."
 yarn run build
 
 echo "Uploading Artifact..."
-yarn publish
+yarn publish --new-version ${new_version}
 
 echo "Tagging..."
 git tag -a ${new_version} -m "NPM Package Release ${new_version}"
